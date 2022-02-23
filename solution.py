@@ -6,8 +6,8 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     endmsg = "\r\n.\r\n"
 
     # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
-    #mailserver = 'smtp.nyu.edu'
-    #port = 25
+    mailserver = 'smtp.nyu.edu'
+    port = 25
 
     # Create socket called clientSocket and establish a TCP connection with mailserver and port
 
@@ -35,8 +35,8 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     clientSocket.send(mailFrom.encode())
     recv1 = clientSocket.recv(1024).decode()
     #print(recv1)
-    #if recv1[:3] == '250':
-    #    print('250 reply received from server for mailFrom.')
+    #if recv1[:3] != '250':
+    #    print('250 reply not received from server for mailFrom.')
     # Fill in end
 
     # Send RCPT TO command and handle server response.
@@ -45,16 +45,17 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     clientSocket.send(rcptTo.encode())
     recv1 = clientSocket.recv(1024).decode()
     #print(recv1)
-    #if recv1[:3] == '250':
-    #    print('250 reply received from server for rcptTo.')
+    #if recv1[:3] != '250':
+    #    print('250 reply not received from server for rcptTo.')
     # Fill in end
 
     # Send DATA command and handle server response.
+    # Fill in start
     clientSocket.send('DATA\r\n'.encode())
     recv1 = clientSocket.recv(1024).decode()
     #print(recv1)
-    #print("completed DATA message")
-    # Fill in start
+    #if recv1[:3] != '354':
+    #    print('354 reply not received from server for DATA.')
     # Fill in end
 
     # Send message data.
@@ -68,19 +69,19 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Message ends with a single period, send message end and handle server response.
     # Fill in start
     clientSocket.send(endmsg.encode())
-    #recv1 = clientSocket.recv(1024)
+    recv1 = clientSocket.recv(1024)
     #print(recv1)
     #print("completed send endmsg")
     # Fill in end
 
     # Send QUIT command and handle server response.
     # Fill in start
-    clientSocket.send('QUIT'.encode())
+    clientSocket.send('QUIT\r\n'.encode())
     recv1 = clientSocket.recv(1024)
     #print(recv1)
     #print("completed QUIT message")
     # Fill in end
-    clientSocket.close()
+    #clientSocket.close()
 
 
 if __name__ == '__main__':
