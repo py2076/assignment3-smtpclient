@@ -80,7 +80,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     #print(recv1)
     #print("completed QUIT message")
     # Fill in end
-    #clientSocket.close()
+    clientSocket.close()
 
 
 if __name__ == '__main__':
